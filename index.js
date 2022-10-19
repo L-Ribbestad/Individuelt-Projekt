@@ -3,10 +3,10 @@ let darkModeBtn = document.querySelector("#darkModeBtn");
 darkModeBtn.addEventListener("click", () => {
     document.body.style.background = "grey";
     document.body.style.color = "white";
-});
+ });
 
 /*Funktioner:
-Quizfrågor
+Själva Quizet
 Placering av quizet
 Resultat hantering
 Resultat knapp
@@ -95,19 +95,39 @@ let questionArr = [
         correctAnswer: "a"
     }
 ];
+let quizContent = document.getElementById("quiz");
+let resultsContent = document.getElementById("results");
+let resultBtn = document.getElementById("getResults");
+
+createQuiz(questionArr, quizContent, resultsContent, resultBtn);
 
 function createQuiz(questions, quizContent, resultsContent, resultBtn){
     function showQuestions(questions, quizContent) {
-
-    }
-    function showResults(questions, quizContent, resultsContent) {
-
-    }
-    showQuestions(questions, quizContent);
-
-    resultBtn.onclick = function(){
-        showResults(questions, quizContent, resultsContent);
-    }
-}
-
-
+        let output = [];
+        let answers;
+        for(let i=0; i<questions.length; i++) {
+             answers = [];
+             for(letter in questions[i].answers){
+                answers.push(
+                    "<label>" 
+                    + "<input type='radio' name='question"+i+"'value='"+letter+"'>"
+                    + letter + ": " + questions[i].answers[letter] + "</label>"
+                );
+             };
+             output.push(
+                "<div class='question'>" + questions[i].question + "</div>"
+                + "<div class='answers'>" + answers.join("") + "</div>"
+             );
+            };
+            quizContent.innerHTML = output.join("");
+        };
+        
+        function showResults(questions, quizContent, resultsContent) {
+            
+        };
+        showQuestions(questions, quizContent);
+        
+        resultBtn.onclick = function(){
+            showResults(questions, quizContent, resultsContent);
+        };
+    };
