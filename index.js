@@ -71,7 +71,7 @@ let questionArr = [
         correctAnswer: "b"
     },
     {
-        question: "Sulley i Monsters Inc heter igentligen James.",
+        question: "Dvärgarna i snövit saknar alla varsitt finger.",
         answers: {
             a: "sant",
             b: "falskt"
@@ -79,7 +79,7 @@ let questionArr = [
         correctAnswer: "a"
     },
     {
-        question: "Pinochio dyker upp i filmen Trassel.",
+        question: "Tomat är en frukt.",
         answers: {
             a: "sant",
             b: "falskt"
@@ -87,7 +87,15 @@ let questionArr = [
         correctAnswer: "a"
     },
     {
-        question: "Dvärgarna i Snövit saknar alla varsit finger.",
+        question: "Kinesiska muren syns från yttre rymden.",
+        answers: {
+            a: "sant",
+            b: "falskt"
+        },
+        correctAnswer: "b"
+    },
+    {
+        question: "Harry Potter tillhör Gryffindor.",
         answers: {
             a: "sant",
             b: "falskt"
@@ -95,10 +103,42 @@ let questionArr = [
         correctAnswer: "a"
     },
     {
-        question: "Bajen är bäst i stan.",
+        question: "Vilken pjäs finns det flest av i schack?",
         answers: {
-            a: "sant",
-            b: "falskt"
+            a: "Torn",
+            b: "Kungar",
+            c: "Hästar",
+            d: "Bönder"
+        },
+        correctAnswer: "d"
+    },
+    {
+        question: "Vilken stad är Zlatan född och uppvuxen i?",
+        answers: {
+            a: "Jönköping",
+            b: "Stockholm",
+            c: "Malmö",
+            d: "Göteborg"
+        },
+        correctAnswer: "c"
+    },
+    {
+        question: "I vilket land är Lissabon huvudstad?",
+        answers: {
+           a: "Spanien",
+           b: "Chile",
+           c: "Portugal",
+           d: "Brasilien"
+        },
+        correctAnswer: "c"
+    },
+    {
+        question: "I vilken världsdel ligger bergskedjan Alperna?",
+        answers: {
+            a: "Europa",
+            b: "Asien",
+            c: "Sydamerika",
+            d: "Afrika"
         },
         correctAnswer: "a"
     }
@@ -116,11 +156,20 @@ function createQuiz(questions, quizContent, resultsContent, resultBtn){
         for(let i=0; i<questions.length; i++) {
              answers = [];
              for(letter in questions[i].answers){
+                 if(i<12) {
                 answers.push(
-                    "<label>" 
-                    + "<input type='radio' name='question"+i+"'value='"+letter+"'>"
-                    + letter + ": " + questions[i].answers[letter] + "</label>"
+                        "<label>" 
+                        + "<input type='radio' name='question"+i+"'value='"+letter+"'>"
+                        + letter + ": " + questions[i].answers[letter] + "</label>"
+                
                 );
+                 }else{
+                    answers.push(
+                        "<label>"
+                        + "<input type='checkbox' name='question"+i+"'value='"+letter+"'>"
+                        + letter + ": " + questions[i].answers[letter] + "</label>"
+                    );
+                 }
              };
              output.push(
                 "<div class='question'>" + questions[i].question + "</div>"
@@ -134,20 +183,23 @@ function createQuiz(questions, quizContent, resultsContent, resultBtn){
             let answerContent = quizContent.querySelectorAll(".answers");
             let checkedAnswer = "";
             let correctAmount = 0;
-
+            
             for(let i=0; i<questions.length; i++) {
                 checkedAnswer = (answerContent[i].querySelector("input[name=question"+i+"]:checked")||
                 {}).value;
                 if(checkedAnswer===questions[i].correctAnswer) {
                     correctAmount++;
-                } 
+                    answerContent[i].style.color = "lightgreen";
+                } else {
+                    answerContent[i].style.color = "red";
+                }
             };
-            
-            if(correctAmount>7) {
+
+            if(correctAmount>10) {
                 resultsContent.style.color = "lightgreen";
                 resultsContent.innerHTML = correctAmount + " / " + questions.length + " Mycket väl godkänd!";
             }
-            else if(correctAmount>=5) {
+            else if(correctAmount>=7) {
                 resultsContent.style.color = "orange";
                 resultsContent.innerHTML = correctAmount + " / " + questions.length + " Godkänd!";
             }
